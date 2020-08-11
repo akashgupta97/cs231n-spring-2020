@@ -1,0 +1,214 @@
+%
+% This is the LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing.  When preparing
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+\usepackage{xcolor}
+\usepackage{amsmath,amsfonts,graphicx}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CS231n: CNNs for Visual Recognition
+        \hfill Spring 2017} }
+       \vspace{4mm}
+       \hbox to 6.28in { {\Large \hfill Lecture 5  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.28in { {\it Course Coordinator: Prof. Fei-Fei Li \hfill Scribes: Akash Gupta} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Lecture #1}{Lecture #1}
+%
+%   {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+%
+%   {\bf Disclaimer}: {\it These notes have not been subjected to the
+%   usual scrutiny reserved for formal publications.  They may be distributed
+%   outside this class only with the permission of the Course Coordinator.}
+%   \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}%
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+            \vspace{#2}
+            \begin{center}
+            Figure \thelecnum.#1:~#3
+            \end{center}
+    }
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand\E{\mathbb{E}}
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{5}{}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+% **** YOUR NOTES GO HERE:
+
+
+\textbf{Convolutional NNs}: They explicitly try to maintain spatial structure of an image.
+
+\textbf{A bit of history....}
+\begin{itemize}
+    \item \underline{Mark I perceptron} (developed by Frank Rosenblatt in 1957) - first implementation of the perceptron algorithm. Same idea as getting the score functions but the outputs are going to be 1 or 0. Also, has an update rule for weights but no principled backpropagation technique.
+    \item \underline{Adaline/Madaline} (developed by Widrow and Hoff in 1960) - stacked up linear perceptron layers to form multi-layer perceptron. Starting to look kinda like NN. But no backpropagation technique.
+    \item \underline{First time backpropagation became popular} (developed by Rumelhart in 1986) - Starting to see chain rule equations and have a principled way to train these neural network architectures.
+    \item \underline{Reinvigorating research in deep learning} (developed by Hinton and Salakhutdinov in 2006) - Since there were not a lot of new things happening before 2000, in 2006 this paper showed that we could train a DNN but not a modern way of doing training.
+    \item \underline{Papers on Acoustic Modeling, Speech Recognition, ImageNet Classification} (developed by Hinton in 2010/12) - The usage of these kind of NNs became popular and we had strongest results till then for speech recognition and in 2012 for ImageNet Classification where they introduced the first CNN architecture.
+\end{itemize} 
+
+\textbf{Rise of ConvNNs}
+\begin{itemize}
+    \item \underline{Understanding how neurons in the visual cortex work} (developed by Hubel \& Wiesel in 1950) - Cat experiment and response to stimulus. Topographical mapping in the cortex of the visual representation. Hierarchical organization of neurons.
+    \item \underline{Neurocognitron} (developed by Fukushima 1980) - Introduced the first architecture of simple (modifiable params) and complex cells (pooling layers).
+    \item \underline{Gradient based learning in document recognition} (developed by Yann LeCun in 1998) - Gave the first example of applying backpropagation and gradient based learning for training CNN for zip code recognition. Not able to scale to complex problems.
+    \item \underline{ImageNet Classification with DeepCNN} (developed by Krizhevsky and Hinton in 2012) - AlexNet for ImageNet Classification and take advantage of parallel comoputing in GPUs.
+    
+\end{itemize} 
+
+\textbf{Uses:} Image classification, Image similarity,  Object detection, Segmentation, Face recognition, Classifying Videos, Pose recognition, Atari games, Image captioning, Neural Styling,......
+
+\textbf{CNNs (without the brain stuff)}:
+
+\underline{Fully connected layer} - 32x32x3 image $->$ stretch to 3072x1 $->$ Wx $->$ activation
+\\
+
+\underline{Convolution layer} - 32x32x3 image $->$ preserve spatial structure $->$ weights are going to be spatial filters of smaller dimensions but whole depth will be covered
+
+
+\item \underline{Performing convolution} - the result of taking a dot product between the filter and a small chunk 5x5x3 of the image $->$ receive a single number.
+
+
+Q) \textit{When we do the dot product, do we turn the 5x5x3 vector in 75x1?}\\
+A) Yeah in essence that is what is happening.
+\\
+
+Q) \textit{Should we rotate the kernel by $180^{\circ}$ to better match the definition of convolution?}\\
+A) So, we don't worry about this since we are already convolving with the flipped version of the convolution layer.
+
+\underline{Sliding operation}: Convolve (slide) over all spatial locations and generate a smaller siza activation map.  Choice of sliding (1-pixel, 2-pixel, etc...)\\
+
+\underline{Multiple filters}:  Take multiple filters to ensure each template is recorded. This will create multiple activation maps. For e.g. - 32X32X3 with 6 5x5 filters generates 6 activation maps or a new image of 28x28x6.
+
+\underline{Preview (how to use this)}: 
+\begin{itemize}
+    \item ConvNet is a sequence of Convolutional layers, interspersed with activation functions. Image $->$ multiple sequences of (CONV $->$ RELU $->$ POOLING)$->$.....Fully-connected layer (FC)
+    \item Low-level features $->$ Mid-level features $->$ High-level features $->$ Linearly separable classifier.
+\end{itemize}
+
+Q) \textit{What are the visualizations in each element of the grid in a CONV layer?}\\
+A) It basically signifies what in the input would look like when it maximizes the activation of the neuron. So in a sense what is the neuron looking for.
+
+\underline{Example}: On visualizing one filter, a template is seen as an edge and convolving this filter produces an activation map with white lines on the edges (indicating high values).
+
+\textbf{A closer look}:
+\begin{itemize}
+    \item Stride is the amount by which the filter is moved.
+    \item Output size: $(N-F)/stride + 1$ where N is the dimension of the image and F is dimension of the filter.
+    \item Filters that are not able to cover the image (or fit) don't really work out.
+    \item In practice, it is common to zero pad the images in order to make the size workout. So the output size is now - $(N +2*P -F)/stride + 1$ where P is no. of layers padded. Or in general case output - Output\_dim  x Output\_dim x no. of filters.
+    \item For maintaining the size, zero pad with $(F-1)/2$ layers.
+    \item Zero padding is important because it prevents the activation maps from reducing in size which could lead to loss of information.
+    \item Common values:
+    \begin{itemize}
+        \item K, Number of filters in powers of 2 - 32, 64, 128, 512,...
+        \item F = 3,5,7
+        \item S = 1,2
+        \item P = 1,2
+    \end{itemize}
+\end{itemize}
+
+Q) \textit{If the image is rectangular, do we change the value of stride that is different horizontally and vertically?}\\
+A) In practice, we prefer to operate over square images and don't prefer this type of convolution.\\
+
+Q) \textit{Intuition behind choosing stride?}\\
+A) Helps in downsampling the images so has kinda like pooling effect. This also helps in reducing the number of params to deal with for fully connected layer
+
+\textbf{Pooling Layer}:
+\begin{itemize}
+    \item Makes the representations smaller and more manageable.
+    \item operates over each activation map independently
+    \item MAX POOLING: Operation is performed exactly like Convolution layer but instead of the dot product we take the maximum value of the localised region of the image.
+    \item For pooling no need to use zero padding sine we are already downsampling.
+\end{itemize}
+
+Q) \textit{If stride and pooling both produce the same effect of downsampling, can we just use stride?}\\
+A) Yes. Also, in recent architectures people have started using stride instead of max pooling. (\textit{Personal intuition}: Will help in reducing the no. of params if we just use stride) 
+
+\textbf{Fully Connected layer (FC)}: Receives output of Convolution and outputs scores based on aggregating the input.
+
+% Some general latex examples and examples making use of the
+% macros follow.
+%**** IN GENERAL, BE BRIEF. LONG SCRIBE NOTES, NO MATTER HOW WELL WRITTEN,
+%**** ARE NEVER READ BY ANYBODY.
+
+% **** THIS ENDS THE EXAMPLES. DON'T DELETE THE FOLLOWING LINE:
+
+\end{document}

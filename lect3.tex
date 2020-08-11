@@ -108,7 +108,7 @@
 \begin{document}
 %FILL IN THE RIGHT INFO.
 %\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
-\lecture{2}{}{}{Akash Gupta}
+\lecture{3}{}
 %\footnotetext{These notes are partially based on those of Nigel Mansell.}
 
 % **** YOUR NOTES GO HERE:
@@ -125,13 +125,13 @@
     \item L = $ \displaystyle \dfrac{1}{N}\sum_{i=1}^{N}L_i$
 \end{itemize}
 \\
-Q) Why would you ever consider using a squared loss instead of a non-squared loss?
+Q) \textit{Why would you ever consider using a squared loss instead of a non-squared loss?}
 \\
 A) Depends on how much we care about different categories of errors. If an example has been as classified as bad (huge value of loss), using squared loss will square this loss - so really really bad.
 Whereas using Hinge loss will not make much difference.
 
 \\
-Q) Are there multiple Ws for which L = 0? If Yes, how to choose W?
+Q) \textit{Are there multiple Ws for which L = 0? If Yes, how to choose W?}
 \\
 A) Yes, 2W also gives L = 0. We need such W so that the classifier performs well on the test data. Sometimes W fits too well on the training data but not on test data (Case where we need a simpler classifier for test examples). We solve this by adding the regularization term:
 \[
@@ -142,7 +142,7 @@ A) Yes, 2W also gives L = 0. We need such W so that the classifier performs well
 - \underline{Types of regularization}: L1, L2, Elastic net (L1 + L2), Max Norm, Dropout, Batch Norm, Stochastic depth
 
 \\
-Q) x = [1,1,1,1], Two Ws given W1: [1,0,0,0], W2: [0.25,0.25,0.25,0.25]. Which one should L2 regression prefer?
+Q) \textit{x = [1,1,1,1], Two Ws given W1: [1,0,0,0], W2: [0.25,0.25,0.25,0.25]. Which one should L2 regression prefer?}
 \\
 A) It will prefer W2 since the L2 norm is smaller. The idea for L2 regularization is kinda spreading the influence of weights over all the Xs rather than depending on only few Ws. On the contrary, L1 regularization has opposite interpretation where more 0s in W(less parameters) correspond to a simpler model. L1 prefers sparse solution whereas L2 prefers spreading over all the Xs to get a less complex model.
 \\
@@ -170,7 +170,7 @@ Various methods -
         \item Adam Optimizer
         \item and many more....
     \end{itemize}
-    \item Use Mini-batch GD as it is much faster than plain GD. In plain GD, one update to weights has to take a whole pass through the dataset which is time-consuming. Favourable values of batches - in poers of 2 (64, 128, 256,....)
+    \item Use Mini-batch GD as it is much faster than plain GD. In plain GD, one update to weights has to take a whole pass through the dataset which is time-consuming. Favourable values of batches - in powers of 2 (64, 128, 256,....)
 \end{itemize}
 
 \underline{Note}: Checkout the interactive Web Demo for better intuition on above concepts.

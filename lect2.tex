@@ -169,7 +169,7 @@ A) Best ans is it's mainly problem dependent so try both and see what works! L1 
     \item \underline {Cross - Validation:} Split data into K folds and try each fold as validation set and average the results.
 \end{itemize}
 
-Q) What if test data is not representative of the data out in the wild?\\
+Q) \textit{What if test data is not representative of the data out in the wild?}\\
 A) Generally does not happen since dataset is curated from a same probability distribution. While splitting, always partition randomly to avoid these type of shifts.
 
 - kNN never used for classifying images - very slow at test time, distance metrics on pixels are not informative, curse of dimensionality since kNN can only work if the training set is densely populated. 
@@ -200,7 +200,7 @@ y\_pred[i] = np.argmax(counts)
 
 \textbf{Inline Questions:}
 
-Q) Notice the structured patterns in the distance matrix, where some rows or columns are visible brighter. (Note that with the default color scheme black indicates low distances while white indicates high distances.)
+Q) \textit{Notice the structured patterns in the distance matrix, where some rows or columns are visible brighter. (Note that with the default color scheme black indicates low distances while white indicates high distances.)}
 
 \begin{itemize}
     \item What in the data is the cause behind the distinctly bright rows?
@@ -208,7 +208,7 @@ Q) Notice the structured patterns in the distance matrix, where some rows or col
     \item \textcolor{blue}{YourAnswer}:  The high value of the L2 distance calculated. Outliers in the dataset.
 \end{itemize}
 
-Q) Which of the following preprocessing steps will not change the performance of a Nearest Neighbor classifier that uses L1 distance? Select all that apply.
+Q) \textit{Which of the following preprocessing steps will not change the performance of a Nearest Neighbor classifier that uses L1 distance? Select all that apply.}
 \begin{itemize}
 \item Subtracting the mean  $\mu(\Tilde{p}^{(k)}_{ij}=p^{(k)}_{ij} - \mu)$
 \item Subtracting the per pixel mean  $\mu_{ij}(\Tilde{p}^{(k)}_{ij}=p^{(k)}_{ij} - \mu_{ij})$
