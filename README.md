@@ -5,6 +5,8 @@ This repository contains my solutions to the assignments of the [CS231n](http://
 
 Find course notes and assignments [here](http://cs231n.github.io) and be sure to check out the video lectures for [Winter 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv)!
 
+I have also created a list of short notes myself. Feel free check it out! [Link](https://github.com/akashgupta97/cs231n-spring-2020/tree/master/notes)
+
 Assignments using Tensorflow are completed, those using Pytorch will be implemented in the future.
 
 ### Assignment 1:
