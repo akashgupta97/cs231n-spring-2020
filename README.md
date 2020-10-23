@@ -7,7 +7,7 @@ Find course notes and assignments [here](http://cs231n.github.io) and be sure to
 
 I have also created a list of short notes myself. Feel free check it out! [Link](https://github.com/akashgupta97/cs231n-spring-2020/tree/master/notes)
 
-Assignments using Tensorflow are completed, those using Pytorch will be implemented in the future.
+Assignments using PyTorch are completed, those using Tensorflow will be implemented in the future.
 
 ### Assignment 1:
 - [Q1](https://github.com/akashgupta97/cs231n-spring-2020/blob/master/assignment1/knn.ipynb): k-Nearest Neighbor classifier. (_Done_)
