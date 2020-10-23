@@ -3,7 +3,7 @@
 
 This repository contains my solutions to the assignments of the [CS231n](http://cs231n.stanford.edu/) course offered by Stanford University (Spring 2020).
 
-Find course notes and assignments [here](http://cs231n.github.io) and be sure to check out the video lectures for [Winter 2017](https://www.youtube.com/playlist?list=PL3FW7Lu3i5JvHM8ljYj-zLfQRF3EO8sYv)!
+Find course notes and assignments [here](http://cs231n.github.io) and be sure to check out the video lectures for [Spring 2017](https://www.youtube.com/playlist?list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk)!
 
 I have also created a list of short notes myself. Feel free check it out! [Link](https://github.com/akashgupta97/cs231n-spring-2020/tree/master/notes)
 
